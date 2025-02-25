@@ -1,7 +1,9 @@
 import { LeftSidebar } from '@/components/left-sidebar'
 import { MobileNav } from '@/components/mobile-nav'
 import { RightSibebar } from '@/components/right-sibebar'
+import { Toaster } from '@/components/ui/sonner'
 import type { Metadata } from 'next'
+
 import Image from 'next/image'
 
 export const metadata: Metadata = {
@@ -32,8 +34,8 @@ export default function RootLayout({
 							<MobileNav />
 						</div>
 						<div className='flex flex-col md:pb-14'>
-							Toaster
 							{children}
+							<Toaster />
 						</div>
 					</div>
 				</section>

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import '@/styles/globals.css'
+import './globals.css'
 import '@/styles/clerk-overrides.css'
 import '@/styles/custom-classes.css'
 import { ConvexClerkProvider } from '@/providers/convex-clerk-provider'
