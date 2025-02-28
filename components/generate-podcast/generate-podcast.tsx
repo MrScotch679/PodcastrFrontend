@@ -7,11 +7,12 @@ import { Loader } from 'lucide-react'
 import { useState } from 'react'
 import { useAction, useMutation } from 'convex/react'
 import { api } from '@/convex/_generated/api'
-import { v4 as uuidv4 } from 'uuid'
+import { v4 } from 'uuid'
 import { toast } from 'sonner'
 
 import { useUploadFiles } from '@xixixao/uploadstuff/react'
 
+// TODO: REFACTOR
 export function GeneratePodcast(props: GeneratePodcastProps) {
 	const {
 		voiceType,
@@ -49,14 +50,14 @@ export function GeneratePodcast(props: GeneratePodcastProps) {
 			})
 
 			const blob = new Blob([response], { type: 'audio/mpeg' })
-			const fileName = `podcast-${uuidv4()}.mp3`
+			const fileName = `podcast-${v4()}.mp3`
 
 			const file = new File([blob], fileName, {
 				type: 'audio/mpeg',
 			})
 
 			const uploadedFile = await startUpload([file])
-			const storageId = (uploadedFile[0].response as any).id
+			const storageId = (uploadedFile[0].response as any).storageId
 
 			setAudioStorageId(storageId)
 			const audioUrl = await getAudioUrl({ storageId })

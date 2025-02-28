@@ -22,3 +22,27 @@ export const generateAudioAction = action({
 		return buffer
 	},
 })
+
+export const generateThumbnailAction = action({
+	args: { imagePrompt: v.string() },
+	handler: async (_, { imagePrompt }) => {
+		const response = await openai.images.generate({
+			model: 'dall-e-3',
+			prompt: imagePrompt,
+			quality: 'standard',
+			size: '1024x1024',
+			n: 1,
+		})
+
+		const url = response.data[0].url
+
+		if (!url) {
+			throw new Error('No url found')
+		}
+
+		const imageResponce = await fetch(url)
+		const buffer = await imageResponce.arrayBuffer()
+
+		return buffer
+	},
+})

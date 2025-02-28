@@ -31,6 +31,11 @@ import { GeneratePodcast } from '@/components/generate-podcast'
 import { GenerateThumbnail } from '@/components/generate-thumbnail'
 import { Loader } from 'lucide-react'
 import { VoiceType } from '@/types'
+import { Id } from '@/convex/_generated/dataModel'
+import { toast } from 'sonner'
+import { api } from '@/convex/_generated/api'
+import { useMutation } from 'convex/react'
+import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
 	podcastTitle: z.string(),
@@ -38,25 +43,54 @@ const formSchema = z.object({
 	voiceType: z.string(),
 })
 
+// TODO: REFACTOR
+// States, AI requests
 export default function CreatePodcast() {
+	const router = useRouter()
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 	})
 	const { isLoading } = form.formState
 
-	const [imagePrompt, setImagePrompt] = useState()
-	const [imageStorageId, setImageStorageId] = useState()
-	const [imageUrl, setImageUrl] = useState()
+	const [imagePrompt, setImagePrompt] = useState('')
+	const [imageStorageId, setImageStorageId] = useState<Id<'_storage'> | null>(
+		null
+	)
+	const [imageUrl, setImageUrl] = useState('')
 
 	const [audioUrl, setAudioUrl] = useState<string>('')
-	const [audioStorageId, setAudioStorageId] = useState()
+	const [audioStorageId, setAudioStorageId] = useState<Id<'_storage'> | null>(
+		null
+	)
 
-	const [audioDuration, setAudioDuration] = useState()
+	const [audioDuration, setAudioDuration] = useState(0)
+	const [voicePrompt, setVoicePrompt] = useState('')
 
-	const [voicePrompt, setVoicePrompt] = useState()
+	const createPodcast = useMutation(api.podcats.createPodcast)
 
-	function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log(values)
+	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		try {
+			await createPodcast({
+				podcastTitle: values.podcastTitle,
+				podcastDescription: values.podcastDescription,
+				audioUrl,
+				imageUrl,
+				voiceType: values.voiceType,
+				imagePrompt,
+				voicePrompt,
+				views: 0,
+				audioDuration,
+				audioStorageId: audioStorageId ?? undefined,
+				imageStorageId: imageStorageId ?? undefined,
+			})
+
+			toast.success('Podcast created successfully')
+			router.push('/')
+		} catch (error) {
+			console.error(error)
+			toast.error('Error creating podcast')
+		}
 	}
 
 	return (
@@ -148,7 +182,7 @@ export default function CreatePodcast() {
 							render={({ field }) => (
 								<FormItem className='flex flex-col gap-2.5'>
 									<FormLabel className='text-16 font-bold text-white-1'>
-										Username
+										Podcast Description
 									</FormLabel>
 
 									<FormControl>
@@ -169,7 +203,7 @@ export default function CreatePodcast() {
 					<div className='flex flex-col pt-10'>
 						<GeneratePodcast
 							voiceType={form.getValues('voiceType') as VoiceType}
-							audioUrl={audioUrl}
+							audio={audioUrl}
 							voicePrompt={voicePrompt}
 							setVoicePrompt={setVoicePrompt}
 							setAudio={setAudioUrl}
@@ -177,7 +211,13 @@ export default function CreatePodcast() {
 							setAudioDuration={setAudioDuration}
 						/>
 
-						<GenerateThumbnail />
+						<GenerateThumbnail
+							image={imageUrl}
+							setImage={setImageUrl}
+							imagePrompt={imagePrompt}
+							setImagePrompt={setImagePrompt}
+							setImageStorageId={setImageStorageId}
+						/>
 
 						<div className='mt-10 w-full'>
 							<Button

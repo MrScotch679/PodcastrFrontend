@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
 				protocol: 'https',
 				hostname: 'img.freepik.com',
 			},
+			{
+				protocol: 'https',
+				hostname: 'focused-anteater-216.convex.cloud',
+			},
 		],
 	},
 }
