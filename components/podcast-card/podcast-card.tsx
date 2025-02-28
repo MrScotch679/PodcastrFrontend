@@ -1,19 +1,20 @@
+import { Id } from '@/convex/_generated/dataModel'
 import Image from 'next/image'
 
 export function PodcastCard(props: {
-	id: number
-	title: string
-	description: string
-	imgURL: string
+	_id: Id<'podcasts'>
+	podcastTitle: string
+	podcastDescription: string
+	imageUrl?: string
 }) {
-	const { title, description, imgURL } = props
+	const { podcastTitle, podcastDescription, imageUrl } = props
 
 	return (
 		<div className='cursor-pointer'>
 			<figure className='flex flex-col gap-2'>
 				<Image
-					src={imgURL}
-					alt={title}
+					src={imageUrl || ''}
+					alt={podcastTitle}
 					width={174}
 					height={174}
 					priority={false}
@@ -21,9 +22,11 @@ export function PodcastCard(props: {
 				/>
 
 				<div className='flex flex-col'>
-					<h1 className='text-16 truncate font-bold text-white-1'>{title}</h1>
+					<h1 className='text-16 truncate font-bold text-white-1'>
+						{podcastTitle}
+					</h1>
 					<h2 className='text-12 truncate font-normal capitalize text-white-4'>
-						{description}
+						{podcastDescription}
 					</h2>
 				</div>
 			</figure>
