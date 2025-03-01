@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
 				protocol: 'https',
 				hostname: 'focused-anteater-216.convex.cloud',
 			},
+			{
+				protocol: 'https',
+				hostname: 'img.clerk.com',
+			},
 		],
 	},
 }

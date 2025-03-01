@@ -1,16 +1,20 @@
-import { Id } from '@/convex/_generated/dataModel'
+import { PodcastCardProps } from '@/types'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
-export function PodcastCard(props: {
-	_id: Id<'podcasts'>
-	podcastTitle: string
-	podcastDescription: string
-	imageUrl?: string
-}) {
+export function PodcastCard(props: PodcastCardProps) {
 	const { podcastTitle, podcastDescription, imageUrl } = props
 
+	const router = useRouter()
+
+	const handleViews = () => {
+		router.push(`/podcast/${props._id}`, {
+			scroll: true,
+		})
+	}
+
 	return (
-		<div className='cursor-pointer'>
+		<div className='cursor-pointer' onClick={handleViews}>
 			<figure className='flex flex-col gap-2'>
 				<Image
 					src={imageUrl || ''}

@@ -2,11 +2,11 @@ import { Dispatch, SetStateAction } from 'react'
 
 import { Id } from '@/convex/_generated/dataModel'
 
-export interface EmptyStateProps {
+export interface EmptyProps {
 	title: string
 	search?: boolean
 	buttonText?: string
-	buttonLink?: string
+	link?: string
 }
 
 export interface TopPodcastersProps {
@@ -80,14 +80,14 @@ export interface LatestPodcastCardProps {
 }
 
 export interface PodcastDetailPlayerProps {
-	audioUrl: string
+	audioUrl?: string
 	podcastTitle: string
 	author: string
 	isOwner: boolean
-	imageUrl: string
+	imageUrl?: string
 	podcastId: Id<'podcasts'>
-	imageStorageId: Id<'_storage'>
-	audioStorageId: Id<'_storage'>
+	imageStorageId?: Id<'_storage'>
+	audioStorageId?: Id<'_storage'>
 	authorImageUrl: string
 	authorId: string
 }
@@ -106,10 +106,10 @@ export interface AudioContextType {
 }
 
 export interface PodcastCardProps {
-	imgUrl: string
-	title: string
-	description: string
-	podcastId: Id<'podcasts'>
+	_id: Id<'podcasts'>
+	podcastTitle: string
+	podcastDescription: string
+	imageUrl?: string
 }
 
 export interface CarouselProps {
