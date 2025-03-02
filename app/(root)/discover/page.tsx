@@ -18,7 +18,10 @@ export default function Discover() {
 			<Searchbar />
 
 			<div className='flex flex-col gap-9'>
-				<h1 className='text-20 font-bold text-white-1'>Discover Podcasts</h1>
+				<h1 className='text-20 font-bold text-white-1'>
+					{!search ? 'Discover Podcasts' : `Results for: `}
+					{search ? <span className='text-white-2'>{search}</span> : null}
+				</h1>
 
 				{podcasts?.length ? (
 					<div className='podcast_grid'>
