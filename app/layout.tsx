@@ -34,7 +34,7 @@ export default function RootLayout({
 			<html lang='en'>
 				<AudioProvider>
 					<body
-						className={`${manrope.variable} ${geistSans.variable} antialiased`}
+						className={`${manrope.variable} ${geistSans.variable} antialiased md:overflow-hidden`}
 					>
 						{children}
 					</body>

@@ -6,15 +6,22 @@ import { LeftSidebarLinks } from '../left-sidebar-links'
 import { SignedIn, SignedOut, useClerk } from '@clerk/nextjs'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
+import { cn } from '@/lib/utils'
+import { useAudio } from '@/providers/audio-provider'
 
 export function LeftSidebar() {
 	const router = useRouter()
 	const { signOut } = useClerk()
 
 	const onClickSignOut = () => signOut(() => router.push('/'))
+	const { audio } = useAudio()
 
 	return (
-		<section className='left_sidebar'>
+		<section
+			className={cn('left_sidebar h-[calc(100vh-5px)]', {
+				'h-[calc(100vh-140px)]': audio?.audioUrl,
+			})}
+		>
 			<nav className='flex flex-col gap-6'>
 				<Link
 					href='/'
