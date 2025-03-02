@@ -1,5 +1,6 @@
 import { LeftSidebar } from '@/components/left-sidebar'
 import { MobileNav } from '@/components/mobile-nav'
+import { PodcastPlayer } from '@/components/podcast-player'
 import { RightSibebar } from '@/components/right-sibebar'
 import { Toaster } from '@/components/ui/sonner'
 import type { Metadata } from 'next'
@@ -42,6 +43,8 @@ export default function RootLayout({
 
 				<RightSibebar />
 			</main>
+
+			<PodcastPlayer />
 		</div>
 	)
 }

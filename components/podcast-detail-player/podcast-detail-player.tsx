@@ -9,9 +9,10 @@ import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { api } from '@/convex/_generated/api'
 import { useMutation } from 'convex/react'
+import { useAudio } from '@/providers/audio-provider'
 
 export function PodcastDetailPlayer({
-	// audioUrl,
+	audioUrl,
 	podcastTitle,
 	author,
 	imageUrl,
@@ -23,7 +24,7 @@ export function PodcastDetailPlayer({
 	authorId,
 }: PodcastDetailPlayerProps) {
 	const router = useRouter()
-	// const { setAudio } = useAudio()
+	const { setAudio } = useAudio()
 	const [isDeleting, setIsDeleting] = useState(false)
 	const deletePodcast = useMutation(api.podcats.deletePodcast)
 
@@ -39,13 +40,13 @@ export function PodcastDetailPlayer({
 	}
 
 	const handlePlay = () => {
-		// setAudio({
-		// 	title: podcastTitle,
-		// 	audioUrl,
-		// 	imageUrl,
-		// 	author,
-		// 	podcastId,
-		// })
+		setAudio({
+			title: podcastTitle,
+			audioUrl,
+			imageUrl,
+			author,
+			podcastId,
+		})
 	}
 
 	if (!imageUrl || !authorImageUrl) return <LoaderSpinner />

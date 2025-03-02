@@ -94,9 +94,9 @@ export interface PodcastDetailPlayerProps {
 
 export interface AudioProps {
 	title: string
-	audioUrl: string
 	author: string
-	imageUrl: string
+	audioUrl?: string
+	imageUrl?: string
 	podcastId: string
 }
 
@@ -126,4 +126,9 @@ export type UseDotButtonType = {
 	selectedIndex: number
 	scrollSnaps: number[]
 	onDotButtonClick: (index: number) => void
+}
+
+export interface HeaderProps {
+	headerTitle: string
+	titleClassName?: string
 }

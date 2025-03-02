@@ -1,8 +1,18 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { LeftSidebarLinks } from '../left-sidebar-links'
+import { SignedIn, SignedOut, useClerk } from '@clerk/nextjs'
+import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
 
 export function LeftSidebar() {
+	const router = useRouter()
+	const { signOut } = useClerk()
+
+	const onClickSignOut = () => signOut(() => router.push('/'))
+
 	return (
 		<section className='left_sidebar'>
 			<nav className='flex flex-col gap-6'>
@@ -18,6 +28,27 @@ export function LeftSidebar() {
 
 				<LeftSidebarLinks />
 			</nav>
+
+			<SignedOut>
+				<Link href='/sign-in'>
+					<div className='flex-center w-full pb-14 max-lg:px-4 lg:pr-8'>
+						<Button className='text-16 w-full bg-orange-1 font-extrabold'>
+							Sign In
+						</Button>
+					</div>
+				</Link>
+			</SignedOut>
+
+			<SignedIn>
+				<div className='flex-center w-full pb-14 max-lg:px-4 lg:pr-8'>
+					<Button
+						className='text-16 w-full bg-orange-1 font-extrabold'
+						onClick={onClickSignOut}
+					>
+						Log Out
+					</Button>
+				</div>
+			</SignedIn>
 		</section>
 	)
 }
